@@ -3,8 +3,10 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 
-import App from './../shared/app';
-import { APP_CONTAINER_CLASS, STATIC_PATH, WDS_PORT, isProd } from '../shared/config';
+import App from '../shared/app';
+import {
+  APP_CONTAINER_CLASS, STATIC_PATH, WDS_PORT, isProd,
+} from '../shared/config';
 
 function renderApp(location, state, routerContext = {}) {
   const appHtml = ReactDOMServer.renderToString((
