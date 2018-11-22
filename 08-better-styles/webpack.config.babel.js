@@ -85,6 +85,21 @@ const productionConfig = {
         loader: 'babel-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(css|scss)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            query: {
+              modules: true,
+              importLoaders: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+          },
+          'sass-loader',
+        ],
+      },
     ],
   },
   devtool: false,
