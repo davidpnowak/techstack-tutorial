@@ -4,7 +4,9 @@ import { StaticRouter } from 'react-router';
 import Helmet from 'react-helmet';
 
 import App from 'shared/app';
-import { APP_CONTAINER_CLASS, STATIC_PATH, WDS_PORT, isProd } from 'shared/config';
+import {
+  APP_CONTAINER_CLASS, STATIC_PATH, WDS_PORT, isProd,
+} from 'shared/config';
 
 const renderApp = (location, state, routerContext = {}) => {
   const appHtml = ReactDOMServer.renderToString((
