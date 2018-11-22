@@ -1,7 +1,8 @@
-import { APP_CONTAINER_CLASS, STATIC_PATH, WDS_PORT, isProd } from '../shared/config';
+import {
+  APP_CONTAINER_CLASS, STATIC_PATH, WDS_PORT, isProd,
+} from '../shared/config';
 
-const renderApp = title =>
-  `<!doctype html>
+const renderApp = title => `<!doctype html>
 <html>
   <head>
     <title>${title}</title>

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 class Button extends Component {
   render() {
+    const { onButtonClick, text } = this.props;
     return (
-      <button type="button" onClick={this.props.onButtonClick}>
-        {this.props.text}
+      <button type="button" onClick={onButtonClick}>
+        {text}
       </button>
     );
   }

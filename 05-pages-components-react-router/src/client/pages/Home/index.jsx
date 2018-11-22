@@ -20,6 +20,7 @@ class Home extends Component {
     this.clickHandler = this.clickHandler.bind(this);
     this.clickHandlerAsync = this.clickHandlerAsync.bind(this);
   }
+
   clickHandler() {
     // eslint-disable-next-line no-console
     console.log('Button clicked');
@@ -32,6 +33,7 @@ class Home extends Component {
       buttonText: `Good Morning again at ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
     });
   }
+
   clickHandlerAsync() {
     // eslint-disable-next-line no-console
     console.log('Async Button clicked');
@@ -58,12 +60,14 @@ class Home extends Component {
         })
     );
   }
+
   render() {
+    const { buttonText, buttonTextAsync } = this.state;
     return (
       <div>
         <h1>Home</h1>
-        <Button text={this.state.buttonText} onButtonClick={this.clickHandler} />
-        <Button text={this.state.buttonTextAsync} onButtonClick={this.clickHandlerAsync} />
+        <Button text={buttonText} onButtonClick={this.clickHandler} />
+        <Button text={buttonTextAsync} onButtonClick={this.clickHandlerAsync} />
       </div>
     );
   }
