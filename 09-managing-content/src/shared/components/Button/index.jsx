@@ -5,9 +5,10 @@ import styles from './style.scss';
 
 class Button extends Component {
   render() {
+    const { onButtonClick, text } = this.props;
     return (
-      <button type="button" className={styles.button} onClick={this.props.onButtonClick}>
-        {this.props.text}
+      <button type="button" className={styles.button} onClick={onButtonClick}>
+        {text}
       </button>
     );
   }
