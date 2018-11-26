@@ -7,32 +7,39 @@ We're now going to use some ES6 syntax, which is a great improvement over the "o
 > **[Babel](https://babeljs.io/)** is a compiler that transforms ES6 code (and other things like React's JSX syntax) into ES5 code. It is very modular and can be used in many different [environments](https://babeljs.io/docs/setup/). It is by far the preferred ES5 compiler of the React community.
 
 **Move** your `index.js` into a new `src` folder. This is where you will write your ES6 code. **Replace** the contents in `index.js` with a simple:
+
 ```js
 const str = 'ES6';
 console.log(`Hello ${str}`);
 ```
 
-We're using a *template string* here, which is an ES6 feature that lets us inject variables directly inside the string without concatenation using `${}`. Note that template strings are created using **backquotes**.
+We're using a _template string_ here, which is an ES6 feature that lets us inject variables directly inside the string without concatenation using `${}`. Note that template strings are created using **backquotes**.
 
-* **Run:** `yarn add --dev babel-cli` to install the CLI interface for Babel.
+- **Run:** `yarn add --dev @babel/node` to install the `babel-node` CLI executable for Babel.
 
-Babel CLI comes with [two executables](https://babeljs.io/docs/usage/cli/): `babel`, which compiles ES6 files into new ES5 files, and `babel-node`, which you can use to replace your call to the `node` binary and execute ES6 files directly on the fly.
+Since Babel v7, former included parts were released as standalone npm modules under the common `@babel` namespace:
 
-`babel-node` is great for development but is heavy and not meant for production. In this chapter we are going to use `babel-node` to set up the development environment, and in the next one we'll use `babel` to build ES5 files for production.
+- [@babel/core](https://npmjs.org/package/@babel/core): The core Babel transpiler module, needed as common base for every other installed Babel module.
+- [@babel/node](https://npmjs.org/package/@babel/node): CLI for transpiling modern JavaScript code into legacy code before executing.
+- [@babel/cli](https://npmjs.org/package/@babel/cli): CLI executable for transpiling JavaScript code from source directories to a destination `.js` file.
+
+Furthermore, Babel needs to know which features to transpile, therefore we need to provide a selection of manuals, so that Babel is able to do its magic:
+
+- [@babel/preset-env](https://npmjs.org/package/@babel/preset-env): A collection of latest JavaScript features which need to get transpiled to match a certain ECMAScript standard.
+
+`babel-node` (included in `@babel/node`) is great for development, but it's very heavy and not meant for production. In this chapter we are going to use `babel-node` to set up the development environment, and in the next one we'll use `babel` to build ES5 files for production.
 
 In `package.json`, in your `start` script, **replace** `node .` with `babel-node src` (`index.js` is the default file that Node looks for, which is why we can omit `index.js`).
 
 Running `yarn start` now, it will print the correct output, but Babel is not actually doing anything. That's because we didn't give it any information about the transformations we want to apply. The only reason it prints the correct output is because Node natively understands ES6 without Babel's help. Some browsers or older versions of Node would not be so successful though!
 
-* **Run:** `yarn add --dev babel-preset-env` to install a Babel preset package called `env`, which contains configurations for the most recent ECMAScript features supported by Babel.
+- **Run:** `yarn add --dev @babel/preset-env` to install a Babel preset package called `env`, which contains configurations for the most recent ECMAScript features supported by Babel.
 
 **Create** a `.babelrc` file at the root of your project, which is a JSON file for your Babel configuration. Insert the following snippet to make Babel use the `env` preset:
 
 ```json
 {
-  "presets": [
-    "env"
-  ]
+  "presets": ["env"]
 }
 ```
 
@@ -62,7 +69,7 @@ module.exports = Sessel;
 
 It should not look surprising to you if you've done OOP in the past in any language. It's relatively recent for JavaScript though. The class is exposed to the outside world via the `module.exports` assignment.
 
- **Replace** the contents of your `src/index.js` to:
+**Replace** the contents of your `src/index.js` to:
 
 ```js
 const Sessel = require('./Sessel');
@@ -74,9 +81,9 @@ console.log(redChair.info());
 
 As you can see, unlike the community-made package `color` that we used before, when we require one of our files, we use `./` in the `require()`.
 
-* **Run:** `yarn start`
+- **Run:** `yarn start`
 
-    I am a red Chair.
+  I am a red Chair.
 
 ### The ES6 modules syntax
 
@@ -84,21 +91,25 @@ Here we simply replace `const Sessel = require('./Sessel');` by `import Sessel f
 
 In `Sessel.js`, we also **replace** `module.exports = Sessel;` by `export default Sessel;`
 
-* **Run:** `yarn start`
+- **Run:** `yarn start`
 
-    I am a red Chair.
+  I am a red Chair.
 
 ## ESLint
 
 > **[ESLint](http://eslint.org)** is the linter of choice for ES6 code. A linter gives you recommendations about code formatting, which enforces style consistency in your code, and code you share with your team. It's also a great way to learn about JavaScript by making mistakes that ESLint will catch.
 
-ESLint works with *rules*, and there are [many of them](http://eslint.org/docs/rules/). Instead of configuring the rules we want for our code ourselves, we will use the config created by Airbnb. This config uses a few plugins so we need to install those as well.
+ESLint works with _rules_, and there are [many of them](http://eslint.org/docs/rules/). Instead of configuring the rules we want for our code ourselves, we will use the config created by **Airbnb**. This config uses a few plugins so we need to install those as well.
 
-Check out Airbnb's most recent [instructions](https://www.npmjs.com/package/eslint-config-airbnb) to install the config package and all its dependencies correctly.
+It's strongly advised to check out Airbnb's most recent [instructions](https://www.npmjs.com/package/eslint-config-airbnb) to install the config package and all its dependencies correctly.
 
-* **Run:**
-`yarn add --dev eslint@^4.9.0 eslint-plugin-import@^2.7.0 eslint-plugin-jsx-a11y@^6.0.2 eslint-plugin-react@^7.4.0 eslint-config-airbnb@latest
-`
+> 💡 Unfortunately `eslint-config-airbnb` demands a very strict version handling for its peerDependencies. If you use an **npm** version greater than 5, you can run the `npx install-peerdeps --dev eslint-config-airbnb` command.
+
+- **Run:** (npm v5+)
+  `npx install-peerdeps --dev eslint-config-airbnb`, afterwards run `yarn` to rebuild the `yarn.lock` file
+- **Run:** (npm < v5)
+  Query for the demanded versions of the peerDependencies: `yarn info eslint-config-airbnb peerDependencies`
+  Install the resulting packages using the correct version numbers: `yarn add --dev eslint@^X.Y.Z eslint-plugin-import@^X.Y.Z eslint-plugin-jsx-a11y@^X.Y.Z eslint-plugin-react@^X.Y.Z eslint-config-airbnb@latest`
 
 **Create** an `.eslintrc.json` file at the root of your project, just like we did for Babel, and write the following to it:
 
@@ -121,19 +132,19 @@ Here we just tell ESLint that we want it to lint all JavaScript files under the 
 
 We will use this standard `test` task to run a chain of all the commands that validate our code - whether it's linting, type checking, or unit testing.
 
-* **Run** `yarn test`
+- **Run** `yarn test`
 
 You'll see a couple of lines that say `can't resolve reference #/definitions/basicConfig from id #` (you can [ignore this](https://github.com/airbnb/javascript/issues/1488)), and a warning for using `console.log()` in `index.js`.
 
 Add `/* eslint-disable no-console */` at the top of our `index.js` file to allow the use of `console` in this file.
 
-* **Run** `yarn test` again and now all tests should pass.
+- **Run** `yarn test` again and now all tests should pass.
 
 ### Compat
 
 [Compat](https://github.com/amilajack/eslint-plugin-compat) is a neat ESLint plugin that warns you if you use some JavaScript APIs that are not available in the browsers you need to support. It uses [Browserslist](https://github.com/ai/browserslist), which relies on [Can I Use](http://caniuse.com/).
 
-* **Run:** `yarn add --dev eslint-plugin-compat`
+- **Run:** `yarn add --dev eslint-plugin-compat`
 
 **Add** the following to your `package.json` file to indicate that we want to support browsers that have more than 1% market share:
 
@@ -146,9 +157,7 @@ Add `/* eslint-disable no-console */` at the top of our `index.js` file to allow
 ```json
 {
   "extends": "airbnb",
-  "plugins": [
-    "compat"
-  ],
+  "plugins": ["compat"],
   "rules": {
     "compat/compat": 2
   }
@@ -172,14 +181,15 @@ This chapter set you up with ESLint in the terminal, which is great for catching
 
 ### IDE/Editor Special: Prettier Setup
 
-> **[Prettier](https://github.com/prettier/prettier)** enforces a consistent code style (i.e. code formatting that won't affect the AST) across your entire codebase because it disregards the original styling* by parsing it away and re-printing the parsed AST with its own rules that take the maximum line length into account, wrapping code when necessary.
+> **[Prettier](https://github.com/prettier/prettier)** enforces a consistent code style (i.e. code formatting that won't affect the AST) across your entire codebase because it disregards the original styling\* by parsing it away and re-printing the parsed AST with its own rules that take the maximum line length into account, wrapping code when necessary.
 
 We will use a **[prettier-eslint](https://github.com/prettier/prettier-eslint)**, that runs **eslint --fix** after prettier to enforce our eslint ruleset as well. First we need to install prettier-eslint.
 
-* **Run** `yarn add --dev prettier-eslint`
+- **Run** `yarn add --dev prettier-eslint`
 
 > We want **VS Code** to format our code using Prettier after saving a file. First press `CMD + Shift + P` and select `Install Extension`. Install the ESlint and Prettier Extension for IDE support.
 > Press `CMD + ,` if you’re on a Mac - to open the VS Code Workspace Settings - then **add** the following:
+
 ```javascript
 {
     // Format a file on save. A formatter must be available, the file must not be auto-saved, and editor must not be shutting down.
@@ -190,6 +200,7 @@ We will use a **[prettier-eslint](https://github.com/prettier/prettier-eslint)**
     "prettier.eslintIntegration": true
 }
 ```
+
 > You need to reload to see the extensions in action. For other Text editors the setup will vary.
 
 ## Git Hooks with Husky
@@ -200,7 +211,7 @@ Okay, so we now have this neat `test` task that tells us if our code looks good 
 
 [Husky](https://github.com/typicode/husky) is a package that makes it very easy to set up Git Hooks.
 
-* **Run** `yarn add --dev husky`
+- **Run** `yarn add --dev husky`
 
 All we have to do is to **create** a new task in `scripts` and name it `precommit`:
 
@@ -216,7 +227,7 @@ If you now try to commit your code, it should automatically run the `test` task.
 
 If you encounter any issues or husky isn't running correctly (or not at all):
 
-* **Run** `yarn add --dev husky --force`
+- **Run** `yarn add --dev husky --force`
 
 Congratulations, you completed Page 2!
 
@@ -227,7 +238,6 @@ and then
 `git commit -m="Page 2"`
 
 ---
-
 
 Next section: [03 - Express, Nodemon, and PM2](https://github.com/XXXLutz/techstack-tutorial/blob/master/03-express-nodemon-pm2/Readme.md)
 

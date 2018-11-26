@@ -11,7 +11,7 @@ We do it by just adding a `style.css` file to the component and define the look 
 
 ## The current state of CSS
 
-In 2017, the typical modern JavaScript stack based on React has known best practices. The different libraries and tools this tutorial made you set up are pretty much the *cutting-edge industry standard*. Yes, that's a complex stack to set up, but at least, most front-end devs agree that React-Webpack (maybe with Redux for WebApps) is the way to go. Now regarding CSS, I have some pretty bad news. Nothing settled, there is no standard way to go, no standard stack.
+In 2017, the typical modern JavaScript stack based on React has known best practices. The different libraries and tools this tutorial made you set up are pretty much the _cutting-edge industry standard_. Yes, that's a complex stack to set up, but at least, most front-end devs agree that React-Webpack (maybe with Redux for WebApps) is the way to go. Now regarding CSS, I have some pretty bad news. Nothing settled, there is no standard way to go, no standard stack.
 
 SASS, BEM, SMACSS, SUIT, Bass CSS, React Inline Styles, LESS, Styled Components, CSSX, JSS, Radium, Web Components, CSS Modules, OOCSS, Tachyons, Stylus, Atomic CSS, PostCSS, Aphrodite, React Native for Web, and many more that I forget are all different approaches or tools to get the job done. They all do it well, which is the problem, there is no clear winner, it's a big mess.
 
@@ -19,11 +19,11 @@ We will follow a very traditional stack: CSS was developed by our forefathers an
 
 ## CSS Modules
 
->💡 **[CSS Modules](https://github.com/css-modules/css-modules)** is a CSS file in which all class names and animation names are scoped locally by default.
+> 💡 **[CSS Modules](https://github.com/css-modules/css-modules)** is a CSS file in which all class names and animation names are scoped locally by default.
 
 CSS Modules compile to a low-level interchange format called ICSS or [Interoperable CSS](https://github.com/css-modules/icss), but are written like normal CSS files:
 
-``` css
+```css
 /* style.css */
 .className {
   color: green;
@@ -33,7 +33,7 @@ CSS Modules compile to a low-level interchange format called ICSS or [Interopera
 When importing the **CSS Module** from a JS Module, it exports an object with all mappings from local names to global names.
 
 ```js
-import styles from "./style.css";
+import styles from './style.css';
 
 const element = () => <div className={styles.className} />;
 ```
@@ -56,15 +56,16 @@ Example: `.localA :global .global-b .global-c :local(.localD.localE) .global-d`
 
 ### Webpack config
 
-Now is a good time to differentiate between production config and development config. Therefore, we are going to split the configs into three configuration variables: *common*, *development* and *production*.
+Now is a good time to differentiate between production config and development config. Therefore, we are going to split the configs into three configuration variables: _common_, _development_ and _production_.
 
 To combine the configurations we will use the library webpack-merge, so install that first:
 
-* **Run:** `yarn add --dev webpack-merge`
+- **Run:** `yarn add --dev webpack-merge`
 
 Now put the content of the default export to a constant `commonConfig` and remove all conditions where we were checking if isProd is true or other dev settings where made. On Bottom we now define a variable that contains the setup specific config:
 
 **Update** `webpack.config.babel.js`
+
 ```jsx
 import path from 'path';
 import webpack from 'webpack';
@@ -83,7 +84,10 @@ const commonConfig = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  plugins: [new webpack.optimize.OccurrenceOrderPlugin(), new webpack.NoEmitOnErrorsPlugin()],
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+  ],
 };
 
 // #2
@@ -110,6 +114,7 @@ export default config;
 ### Production Settings
 
 In Production we need to ensure three things:
+
 - Render the Page on Server
 - Combine all Styles in a styles.css
 - Combine Application logic in bundle.js
@@ -120,7 +125,7 @@ In production the Server initiates the Server Side Rendering in lib/server that 
 
 For this we use the Babel plugin `babel-plugin-css-modules-transform`.
 
-* **Run:** `yarn add --dev babel-plugin-css-modules-transform`
+- **Run:** `yarn add --dev babel-plugin-css-modules-transform`
 
 **Update** the babel config `.babelrc`:
 
@@ -149,6 +154,7 @@ So when the Server Side Rendered Component is delivered by the server, it serves
 Lets take a look at the Webpack config for Production:
 
 **Update** `webpack.config.babel.js`
+
 ```jsx
 // #3
 //
@@ -223,7 +229,11 @@ import styles from './style.css';
 class Button extends Component {
   render() {
     return (
-      <button type="button" className={styles.button} onClick={this.props.onButtonClick}>
+      <button
+        type="button"
+        className={styles.button}
+        onClick={this.props.onButtonClick}
+      >
         {this.props.text}
       </button>
     );
@@ -232,7 +242,7 @@ class Button extends Component {
 //[...]
 ```
 
-* **Run:** `yarn prod:build` and take a look into the dist folder.
+- **Run:** `yarn prod:build` and take a look into the dist folder.
 
 You will find a css/styles.css file with following content:
 
@@ -246,7 +256,7 @@ You will find a css/styles.css file with following content:
 }
 ```
 
-* **Run:** the application with `yarn prod:start`and reload `http://localhost:8000`. You will notice that the font family changed back to the default styling and the Buttons are styled. The reason for that is that when requesting style.css express finds the stylesheet in dist and sends it back immediatly, therefore ignores the stylesheet in public.
+- **Run:** the application with `yarn prod:start`and reload `http://localhost:8000`. You will notice that the font family changed back to the default styling and the Buttons are styled. The reason for that is that when requesting style.css express finds the stylesheet in dist and sends it back immediatly, therefore ignores the stylesheet in public.
 
 ### Development Settings
 
@@ -312,14 +322,13 @@ const developmentConfig = {
 
 The interesting part is the `query` parameter for the `babel-loader`. It tells the loader to ignore the `.babelrc` settings.
 
-* **Run:** `yarn add --dev style-loader css-loader`
+- **Run:** `yarn add --dev style-loader css-loader`
 
 The next rule uses css-loader with modules true to put the css imports into your javascript modules and therefore enables Hot Module Reload in Development.
 
-* **Run:** the application with `yarn start` and in another window `yarn dev:wds` and reload `http://localhost:8000`. When you refresh a couple of times you notice that the style is loaded with a bit of delay. This shows that the styling is only done when the javascript is loaded and we have hot module reload for styles as well.
+- **Run:** the application with `yarn start` and in another window `yarn dev:wds` and reload `http://localhost:8000`. When you refresh a couple of times you notice that the style is loaded with a bit of delay. This shows that the styling is only done when the javascript is loaded and we have hot module reload for styles as well.
 
-*Don't forget to close the production server with `yarn prod:stop` if it is still running.*
-
+_Don't forget to close the production server with `yarn prod:stop` if it is still running._
 
 ### Set some global stylings
 
@@ -360,7 +369,7 @@ This is the step before we give our App a facelift, so stay with me!
 
 To use Sass files, we have to change the css loader in our webpack config and adapt the plugin in our `.babelrc` config. But first lets install some dependencies:
 
-* **Run:** `yarn add --dev node-sass sass-loader`
+- **Run:** `yarn add --dev node-sass sass-loader`
 
 **Modify** `webpack.config.babel.js` to add the sass loader to the development webpack config:
 
@@ -393,7 +402,7 @@ module.exports = function processSass(data, filename) {
   var result;
   result = sass.renderSync({
     data: data,
-    file: filename
+    file: filename,
   }).css;
   return result.toString('utf8');
 };
@@ -482,11 +491,14 @@ const commonConfig = {
     extensions: ['.js', '.jsx'],
     modules: [path.join(__dirname, 'src'), 'node_modules'],
   },
-  plugins: [new webpack.optimize.OccurrenceOrderPlugin(), new webpack.NoEmitOnErrorsPlugin()],
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+  ],
 };
 ```
 
-This tells webpack when looking for an import that is not relative or absolute to look ***first*** in the **src** folder and only after that into the node_modules folder.
+This tells webpack when looking for an import that is not relative or absolute to look **_first_** in the **src** folder and only after that into the node_modules folder.
 
 **Modify** `babelrc.js` to do the same thing for the babel node sass preprocessor:
 
@@ -495,18 +507,17 @@ const sass = require('node-sass');
 const path = require('path');
 
 module.exports = function processSass(data, filename) {
-    // we need to remove the ~ that was used for the sass loader, otherwise the path with include paths is wrong.
-    const removeTilde = data.replace(/~/g, '');
-    const result = sass.renderSync({
-        data: removeTilde,
-        file: filename,
-        includePaths: [path.join(__dirname, 'src')],
-        outputStyle: 'compressed',
-    }).css;
+  // we need to remove the ~ that was used for the sass loader, otherwise the path with include paths is wrong.
+  const removeTilde = data.replace(/~/g, '');
+  const result = sass.renderSync({
+    data: removeTilde,
+    file: filename,
+    includePaths: [path.join(__dirname, 'src')],
+    outputStyle: 'compressed',
+  }).css;
 
-    return result.toString('utf8');
+  return result.toString('utf8');
 };
-
 ```
 
 ### Add better Linking
@@ -522,9 +533,10 @@ import { firstEndpointRoute } from '../../../shared/routes';
 
 To handle the server side once again we have to align webpack again with babel loader. So we add another plugin to our babel configuration:
 
-* **Run:** `yarn add --dev babel-plugin-module-resolver`
+- **Run:** `yarn add --dev babel-plugin-module-resolver`
 
 And **modify** the `.babelrc` Config:
+
 ```json
 {
   "presets": ["env", "react"],
@@ -552,7 +564,9 @@ Now every time babel is resolving a path it will look in `src/` before `node_mod
 
 To avoid ES Linting errors add another plugin:
 
-* **Run:** `yarn add --dev eslint-plugin-import eslint-import-resolver-babel-module`
+> 💡 Please make sure that `eslint-import-resolver-babel-module` installs at least `v5.0.0` to make it compatible with Babel v7.
+
+- **Run:** `yarn add --dev eslint-plugin-import eslint-import-resolver-babel-module@^5.0.0`
 
 And **modify** your `.eslintrc.json` file to:
 
@@ -601,7 +615,6 @@ and then
 `git commit -m="Page 7"`
 
 ---
-
 
 Next section: [08 - Better Styles](https://github.com/XXXLutz/techstack-tutorial/blob/master/08-better-styles/Readme.md)
 

@@ -5,24 +5,27 @@
   "scripts": {
     "dev:start": "nodemon --ignore lib --exec babel-node src/server",
     "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
-    "prod:start":
-      "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
+    "prod:start": "cross-env NODE_ENV=production pm2 start lib/server && pm2 logs",
     "prod:stop": "pm2 delete server",
     "start": "yarn dev:start",
     "test": "eslint src --fix",
     "precommit": "yarn test && yarn prod:build"
   },
-  "browserslist": ["> 1%"],
+  "browserslist": [
+    "> 1%"
+  ],
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
     "cross-env": "^5.0.5",
-    "eslint": "^4.9.0",
-    "eslint-config-airbnb": "^16.1.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-compat": "^1.0.4",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "husky": "^0.14.3",
     "nodemon": "^1.12.1",
     "pm2": "^2.7.1",

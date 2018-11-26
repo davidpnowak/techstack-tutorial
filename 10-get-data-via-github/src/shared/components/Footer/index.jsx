@@ -8,7 +8,12 @@ class Footer extends Component {
     return (
       <div className={main.footer}>
         <div className={styles.footer}>
-          <p>© {APP_NAME} 2017</p>
+          <p>
+©
+            {APP_NAME}
+            {' '}
+2017
+          </p>
         </div>
       </div>
     );

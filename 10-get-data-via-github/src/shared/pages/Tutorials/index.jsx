@@ -18,8 +18,9 @@ class Tutorials extends Component {
 
   componentDidMount() {
     let url = '';
-    if (this.props.match.params.docname !== 'Readme.md') {
-      url = `/repo/${this.props.match.params.docname}/Readme.md`;
+    const { match } = this.props;
+    if (match.params.docname !== 'Readme.md') {
+      url = `/repo/${match.params.docname}/Readme.md`;
     } else {
       url = '/repo/Readme.md';
     }
@@ -29,18 +30,19 @@ class Tutorials extends Component {
   }
 
   render() {
+    const { html, title } = this.state;
     return (
       <div>
         <Helmet
-          title={this.state.title}
+          title={title}
           meta={[
             { name: 'description', content: 'A page to 1say hello' },
-            { property: 'og:title', content: this.state.title },
+            { property: 'og:title', content: title },
           ]}
         />
         <div className={main.container}>
           {/* eslint-disable react/no-danger */}
-          <article dangerouslySetInnerHTML={{ __html: this.state.html }} />
+          <article dangerouslySetInnerHTML={{ __html: html }} />
           {/* eslint-enable react/no-danger */}
         </div>
       </div>

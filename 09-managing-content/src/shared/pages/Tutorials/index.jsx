@@ -17,24 +17,26 @@ class Tutorials extends Component {
   }
 
   componentDidMount() {
-    readDocument(this.props.match.params.docname)
+    const { match } = this.props;
+    readDocument(match.params.docname)
       .then(markupDocument)
       .then(result => this.setState(result));
   }
 
   render() {
+    const { html, title } = this.state;
     return (
       <div>
         <Helmet
-          title={this.state.title}
+          title={title}
           meta={[
             { name: 'description', content: 'A page to 1say hello' },
-            { property: 'og:title', content: this.state.title },
+            { property: 'og:title', content: title },
           ]}
         />
         <div className={main.container}>
           {/* eslint-disable react/no-danger */}
-          <article dangerouslySetInnerHTML={{ __html: this.state.html }} />
+          <article dangerouslySetInnerHTML={{ __html: html }} />
           {/* eslint-enable react/no-danger */}
         </div>
       </div>

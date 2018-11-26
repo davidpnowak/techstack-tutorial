@@ -4,7 +4,7 @@ In this section we are going to create the server that will render our web app. 
 
 ## Express
 
-> **[Express](http://expressjs.com/)** is by far the most popular web application framework for Node. It provides a very simple and minimal API, and its features can be extended with *middleware*.
+> **[Express](http://expressjs.com/)** is by far the most popular web application framework for Node. It provides a very simple and minimal API, and its features can be extended with _middleware_.
 
 Let's set up a minimal Express server to serve an HTML page with some CSS.
 
@@ -12,8 +12,8 @@ Let's set up a minimal Express server to serve an HTML page with some CSS.
 
 Create the following files and folders:
 
-
 - **Create** a `public/css/style.css` file containing:
+
 ```css
 body {
   width: 960px;
@@ -30,8 +30,7 @@ h1 {
 - Create an empty `src/server/` folder.
 - Create an empty `src/shared/` folder.
 
-The `shared` folder is where we put *isomorphic / universal* JavaScript code – files that are used by both the client and the server. A great use case of shared code is *routes*, as you will see later in this tutorial when we'll make an asynchronous call. Here we simply have some configuration constants as an example for now.
-
+The `shared` folder is where we put _isomorphic / universal_ JavaScript code – files that are used by both the client and the server. A great use case of shared code is _routes_, as you will see later in this tutorial when we'll make an asynchronous call. Here we simply have some configuration constants as an example for now.
 
 **Create** a `src/shared/config.js` file containing:
 
@@ -71,12 +70,15 @@ app.get('/', (req, res) => {
 
 app.listen(WEB_PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server running on port ${WEB_PORT} ${isProd ? '(production)' : '(development)'}.`);
+  console.log(
+    `Server running on port ${WEB_PORT} ${
+      isProd ? '(production)' : '(development)'
+    }.`
+  );
 });
 ```
 
 We're using 2 different static file directories here. `dist` for generated files and `public` for declarative ones.
-
 
 **Create** a `src/server/render-app.js` file containing:
 
@@ -99,12 +101,11 @@ const renderApp = title =>
 export default renderApp;
 ```
 
-You know how you typically have *templating engines* on the back-end? Well these are pretty much obsolete now that JavaScript supports template strings. Here we create a function, that takes a `title` as a parameter and injects it in both the `title` and `h1` tags of the page, returning the complete HTML string. We also use a `STATIC_PATH` constant as the base path for all our static assets.
+You know how you typically have _templating engines_ on the back-end? Well these are pretty much obsolete now that JavaScript supports template strings. Here we create a function, that takes a `title` as a parameter and injects it in both the `title` and `h1` tags of the page, returning the complete HTML string. We also use a `STATIC_PATH` constant as the base path for all our static assets.
 
-In `package.json` **change** your `start` script to: `"start": "babel-node src/server",
-`
+In `package.json` **change** your `start` script to: `"start": "babel-node src/server",`
 
-* **Run:** `yarn start`, and hit `localhost:8000` in your browser.
+- **Run:** `yarn start`, and hit `localhost:8000` in your browser.
 
 If everything works as expected you should see a blank page with "Hello App" written both on the tab title and as a red heading on the page.
 
@@ -116,7 +117,7 @@ If everything works as expected you should see a blank page with "Hello App" wri
 
 We are going to use Nodemon whenever we are in **development** mode.
 
-* **Run:** `yarn add --dev nodemon`
+- **Run:** `yarn add --dev nodemon`
 
 **Change** `scripts` in `package.json`
 
@@ -127,27 +128,27 @@ We are going to use Nodemon whenever we are in **development** mode.
 
 `start` is now just a pointer to `dev:start`.
 
-In `dev:start`, the `--ignore lib` indicates to *not* restart the server when changes happen in the `lib` directory. Nodemon typically runs the `node` binary. We tell Nodemon to use the `babel-node` binary instead. This way it will understand all the ES6 code.
+In `dev:start`, the `--ignore lib` indicates to _not_ restart the server when changes happen in the `lib` directory. Nodemon typically runs the `node` binary. We tell Nodemon to use the `babel-node` binary instead. This way it will understand all the ES6 code.
 
-* **Run:** `yarn start` and open `localhost:8000`.
+- **Run:** `yarn start` and open `localhost:8000`.
 
 Go ahead and **change** the `APP_NAME` constant in `src/shared/config.js`, which triggers a restart of your server in the terminal. Refresh the page to see the updated title.
 
-
 ## PM2
+
 > **[PM2](http://pm2.keymetrics.io/)** is a Process Manager for Node. It keeps your processes alive in production and offers tons of features to manage them and monitor them.
 
 We are going to use PM2 whenever we are in **production** mode.
 
-* **Run:** `yarn add --dev pm2`
+- **Run:** `yarn add --dev pm2`
 
 In production, you want your server to be as performant as possible. `babel-node` triggers the entire Babel transpilation process for your files at each execution, which is not something you want in production. We need Babel to do all this work beforehand and have our server serve plain old pre-compiled ES5 files.
 
-One of the main features of Babel is to take a folder of ES6 code (usually named `src`) and transpile it into a folder of ES5 code (usually named `lib`).
+One of the main features of Babel is to take a folder of ES6 code (usually named `src`) and transpile it into a folder of ES5 code (usually named `lib`), thus the package `@babel/cli` needs to be included to this step.
 
 This `lib` folder is auto-generated. Before a new build we need to clean up this directory. A simple cross platform package to delete files is `rimraf`.
 
-* **Run:** `yarn add --dev rimraf`
+- **Run:** `yarn add --dev rimraf @babel/cli`
 
 **Add** `prod:build` to our `scripts` in `package.json`:
 
@@ -155,7 +156,7 @@ This `lib` folder is auto-generated. Before a new build we need to clean up this
 "prod:build": "rimraf lib && babel src -d lib --ignore .test.js",
 ```
 
-* **Run:** `yarn prod:build`
+- **Run:** `yarn prod:build`
 
 This generates a `lib` folder with the transpiled code, except for files ending in `.test.js` (note that `.test.jsx` files are also ignored by this parameter).
 
@@ -179,7 +180,7 @@ One last thing: We are going to pass a `NODE_ENV` environment variable to our PM
 },
 ```
 
-* **Run:** `yarn prod:build`, then run `yarn prod:start`.
+- **Run:** `yarn prod:build`, then run `yarn prod:start`.
 
 PM2 shows an active process. Go to `http://localhost:8000/` in your browser to see your app. Your terminal should show the logs, which should be "Server running on port 8000 (production)." Note that with PM2, your processes are run in the background. If you press Ctrl+C, it will kill the `pm2 logs` command, which was the last command of our `prod:start` chain. If you want to stop the server, run `yarn prod:stop`.
 
@@ -200,7 +201,6 @@ and then
 `git commit -m="Page 3"`
 
 ---
-
 
 Next section: [04 - Webpack, React, and Hot Module Replacement](https://github.com/XXXLutz/techstack-tutorial/blob/master/04-webpack-react-hmr/Readme.md)
 
