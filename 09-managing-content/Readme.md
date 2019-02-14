@@ -6,7 +6,7 @@ In this chapter we will implement a simple way to manage articles based on plain
 
 Download the [placeholder markdown file](https://pastebin.com/raw/K5fjJGkf) and **save** it as `public/documents/lorem.md`.
 
-The public folder is defined in the `src/shared/server/index.js` as a public path and we will use it to store our documents. There are styles we don't need in there anymore so **delete** the `css` Folder.
+The public folder is defined in the `src/server/index.js` as a public path and we will use it to store our documents. There are styles we don't need in there anymore so **delete** the `css` Folder.
 
 We use the package `marked` for Mark Down Rendering:
 

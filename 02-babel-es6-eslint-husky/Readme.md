@@ -39,7 +39,7 @@ Running `yarn start` now, it will print the correct output, but Babel is not act
 
 ```json
 {
-  "presets": ["env"]
+  "presets": ["@babel/preset-env"]
 }
 ```
 

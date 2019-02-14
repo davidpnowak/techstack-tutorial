@@ -83,7 +83,7 @@ Here we say that we want all `.js` and `.jsx` (for React) files except the ones 
 
 `babel-loader` is a plugin for Webpack that transpiles your code just like we've been doing since the beginning of this tutorial. The only difference is that this time the code will end up running in the browser instead of your server.
 
-- **Run:** `yarn add --dev webpack webpack-dev-server @babel/core babel-loader`
+- **Run:** `yarn add --dev webpack webpack-dev-server webpack-cli babel-loader`
 
 `@babel/core` is a peer-dependency of `babel-loader`, so we installed it as well.
 
@@ -225,6 +225,16 @@ By default the Airbnb ESLint preset we are using prefers functional React compon
    },
    "env": {
      "browser": true
+   }
+```
+
+To turn off destructuring enforcement for props optionally use:
+
+```json
+   "rules": {
+    "compat/compat": 2,
+    "react/prefer-stateless-function": 0,
+    "react/destructuring-assignment": ["<enabled>", "never"]
    }
 ```
 

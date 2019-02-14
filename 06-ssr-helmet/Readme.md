@@ -200,7 +200,6 @@ class App extends Component {
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 
-import { APP_NAME } from '../../config';
 // [...]
 class Home extends Component {
 // [...]
