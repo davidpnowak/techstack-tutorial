@@ -131,7 +131,7 @@ For this we use the Babel plugin `babel-plugin-css-modules-transform`.
 
 ```json
 {
-  "presets": ["env", "react"],
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
   "plugins": [
     [
       "css-modules-transform",
@@ -283,7 +283,7 @@ const developmentConfig = {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         query: {
-          presets: ['env', 'react'],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
           babelrc: false,
         },
         exclude: /node_modules/,
@@ -395,12 +395,11 @@ The .babelrc file is a json and css-modules-transform needs to refer to an funct
 
 ```jsx
 // ./path/to/module-exporting-a-function.js
-var sass = require('node-sass');
-var path = require('path');
+const sass = require('node-sass');
+const path = require('path');
 
 module.exports = function processSass(data, filename) {
-  var result;
-  result = sass.renderSync({
+  const result = sass.renderSync({
     data: data,
     file: filename,
   }).css;
@@ -412,7 +411,7 @@ and **modify** the `.babelrc`:
 
 ```json
 {
-  "presets": ["env", "react"],
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
   "plugins": [
     [
       "css-modules-transform",
@@ -435,7 +434,6 @@ Now, change the filename and the import of the Button Component and the global S
 
 ```sass
 $brand-primary: #e20015;
-;
 ```
 
 And **rename** and **modify** `src/shared/styles/main.scss`:
@@ -539,7 +537,7 @@ And **modify** the `.babelrc` Config:
 
 ```json
 {
-  "presets": ["env", "react"],
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
   "plugins": [
     [
       "css-modules-transform",

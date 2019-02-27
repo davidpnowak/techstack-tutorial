@@ -33,7 +33,7 @@ const developmentConfig = {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         query: {
-          presets: ['env', 'react'],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
           babelrc: false,
         },
         exclude: /node_modules/,
