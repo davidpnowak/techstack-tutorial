@@ -26,7 +26,7 @@
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.11.1",
-    "husky": "^0.14.3",
+    "husky": "^4.0.9",
     "nodemon": "^1.18.7",
     "pm2": "^2.7.1",
     "prettier-eslint": "^8.2.0",
