@@ -19,7 +19,7 @@
     "@babel/core": "^7.1.6",
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
-    "cross-env": "^5.0.5",
+    "cross-env": "^6.0.3",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-compat": "^1.0.4",
