@@ -33,7 +33,7 @@
     "nodemon": "^2.0.2",
     "pm2": "^3.5.1",
     "prettier-eslint": "^8.2.0",
-    "rimraf": "^2.6.2",
+    "rimraf": "^3.0.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
