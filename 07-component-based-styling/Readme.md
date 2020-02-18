@@ -295,9 +295,10 @@ const developmentConfig = {
           {
             loader: 'css-loader',
             query: {
-              modules: true,
+              modules: {
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+              },
               importLoaders: true,
-              localIdentName: '[name]__[local]___[hash:base64:5]',
             },
           },
         ],
@@ -381,9 +382,10 @@ To use Sass files, we have to change the css loader in our webpack config and ad
       {
         loader: 'css-loader',
         query: {
-          modules: true,
+          modules: {
+            localIdentName: '[name]__[local]___[hash:base64:5]',
+          },
           importLoaders: true,
-          localIdentName: '[name]__[local]___[hash:base64:5]',
         },
       },
       'sass-loader',
